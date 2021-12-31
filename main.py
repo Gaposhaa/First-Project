@@ -29,9 +29,8 @@ full_description = f"""№ квитанции: "{random.randint(1, 1000)}"
 Ф.И.О. клиента: "{user_data.surname} {user_data.name} {user_data.father_name}"
 Дата принятия в ремонт: {date_of_receipt}
 Дата выдачи после ремонта: {deadline}
-принят в ремонт: "{user_data.equipment}"
 Статус: "{execution_of_works("Техника принята в ремонт")}"
-техническая информация/информация о поломке:"""
+Техническая информация/информация о поломке:"""
 
 
 class Technic(ABC):
@@ -45,35 +44,37 @@ class Phone(Technic):
         model = input("Модель - ")
         operation_system = input("Оперционная система - ")
         type_of_breakdown = input("Тип поломки - ")
-        print(f"{full_description}, [{model=}, {operation_system=}, {type_of_breakdown=}]")
+        print(f"{full_description} {user_data.equipment} - {model=}, {operation_system=}, {type_of_breakdown=}")
         return model, operation_system, type_of_breakdown
 
 
 class TV(Technic):
     def enter_data(self):
-        model = input("Модель - ")
-        try:
-            diagonal = int(input("Диагональ экрана - "))
-        except ValueError:
-            print("Ведена неверная информация в графе <Диагональ экрана>. Пожалуйста, исправьте данные.")
-        else:
-            type_of_breakdown = input("Тип поломки - ")
-            print(f"{full_description}, [{model=}, {diagonal=}, {type_of_breakdown=}]")
-            return model, diagonal, type_of_breakdown
+        while True:
+            model = input("Модель - ")
+            try:
+                diagonal = int(input("Диагональ экрана - "))
+            except ValueError:
+                print("Ведена неверная информация в графе <Диагональ экрана>. Пожалуйста, исправьте данные.")
+            else:
+                type_of_breakdown = input("Тип поломки - ")
+                print(f"{full_description} {user_data.equipment} - {model=}, {diagonal=}, {type_of_breakdown=}")
+                return model, diagonal, type_of_breakdown
 
 
 class Laptop(Technic):
     def enter_data(self):
-        model = input("Модель - ")
-        operation_system = input("Операционная система - ")
-        try:
-            year_of_release = int(input("Год выпуска - "))
-        except ValueError:
-            print("Ведена неверная информация в графе <Год выпуска>. Пожалуйста, исправьте данные.")
-        else:
-            type_of_breakdown = input("Тип поломки - ")
-            print(f"{full_description}, [{model=}, {year_of_release=}, {type_of_breakdown=}]")
-            return model, year_of_release, operation_system, type_of_breakdown
+        while True:
+            model = input("Модель - ")
+            operation_system = input("Операционная система - ")
+            try:
+                year_of_release = int(input("Год выпуска - "))
+            except ValueError:
+                print("Ведена неверная информация в графе <Год выпуска>. Пожалуйста, исправьте данные.")
+            else:
+                type_of_breakdown = input("Тип поломки - ")
+                print(f"{full_description} {user_data.equipment} - {model=}, {year_of_release=}, {type_of_breakdown=}")
+                return model, year_of_release, operation_system, type_of_breakdown
 
 
 def output_data(type_of_technic):
@@ -82,7 +83,7 @@ def output_data(type_of_technic):
         full_description, type_of_technic.enter_data()
     elif user_data.equipment == "Телевизор":
         type_of_technic = TV()
-        type_of_technic.enter_data()
+        full_description, type_of_technic.enter_data()
     elif user_data.equipment == "Ноутбук":
         type_of_technic = Laptop()
         full_description, type_of_technic.enter_data()
@@ -94,6 +95,7 @@ def output_data(type_of_technic):
 2 - "Телевизор"
 3 - "Ноутбук" """)
         user_data.equipment = input("Тип техники(Телефон, Телевизор, Ноутбук) = ")
+
         output_data(user_data.equipment)
 
     return type_of_technic
