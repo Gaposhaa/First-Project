@@ -41,23 +41,31 @@ class Technic(ABC):
 
 class Phone(Technic):
     def enter_data(self):
-        model = input("Модель - ")
-        operation_system = input("Оперционная система - ")
-        type_of_breakdown = input("Тип поломки - ")
-        print(f"{full_description} {user_data.equipment} - {model=}, {operation_system=}, {type_of_breakdown=}")
-        return model, operation_system, type_of_breakdown
+        try:
+            model = input("Модель - ")
+            operation_system = input("Оперционная система - ")
+            type_of_breakdown = input("Тип поломки - ")
+            if model.isnumeric() or operation_system.isnumeric() or type_of_breakdown.isnumeric():
+                raise ValueError
+        except ValueError:
+            print("Введена не корректная информация. Пожалуйста, исправьте.")
+        else:
+            print(f"{full_description} {user_data.equipment} - {model=}, {operation_system=}, {type_of_breakdown=}")
+            return model, operation_system, type_of_breakdown
 
 
 class TV(Technic):
     def enter_data(self):
         while True:
-            model = input("Модель - ")
             try:
+                model = input("Модель - ")
                 diagonal = int(input("Диагональ экрана - "))
-            except ValueError:
-                print("Ведена неверная информация в графе <Диагональ экрана>. Пожалуйста, исправьте данные.")
-            else:
                 type_of_breakdown = input("Тип поломки - ")
+                if model.isnumeric() or type_of_breakdown.isnumeric():
+                    raise ValueError
+            except ValueError:
+                print("Введена не корректная информация. Пожалуйста, исправьте.")
+            else:
                 print(f"{full_description} {user_data.equipment} - {model=}, {diagonal=}, {type_of_breakdown=}")
                 return model, diagonal, type_of_breakdown
 
@@ -65,14 +73,16 @@ class TV(Technic):
 class Laptop(Technic):
     def enter_data(self):
         while True:
-            model = input("Модель - ")
-            operation_system = input("Операционная система - ")
             try:
+                model = input("Модель - ")
+                operation_system = input("Операционная система - ")
                 year_of_release = int(input("Год выпуска - "))
-            except ValueError:
-                print("Ведена неверная информация в графе <Год выпуска>. Пожалуйста, исправьте данные.")
-            else:
                 type_of_breakdown = input("Тип поломки - ")
+                if model.isnumeric() or operation_system.isnumeric() or type_of_breakdown.isnumeric():
+                    raise ValueError
+            except ValueError:
+                print("Введена не корректная информация. Пожалуйста, исправьте.")
+            else:
                 print(f"{full_description} {user_data.equipment} - {model=}, {year_of_release=}, {type_of_breakdown=}")
                 return model, year_of_release, operation_system, type_of_breakdown
 
@@ -95,10 +105,8 @@ def output_data(type_of_technic):
 2 - "Телевизор"
 3 - "Ноутбук" """)
         user_data.equipment = input("Тип техники(Телефон, Телевизор, Ноутбук) = ")
-
         output_data(user_data.equipment)
-
-    return type_of_technic
+        return type_of_technic
 
 
 output_data(user_data.equipment)
