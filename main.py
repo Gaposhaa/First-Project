@@ -21,12 +21,13 @@ print("""Приветствуем Вас в нашем сервисе по ре�
             - "Очество"
             - "Фамилия"
             - "Тип техники(Телефон, Телевизор, Ноутбук)""")
+
 user_data = Receipt(input("Имя - "), input("Очество - "), input("Фамилия - "), input("Тип техники - "))
 date_of_receipt = datetime.date.today()
 numbers_days = 1, 2, 3, 4, 5
 deadline = date_of_receipt + datetime.timedelta(random.choice(numbers_days))
 full_description = f"""№ квитанции: "{random.randint(1, 1000)}"
-Ф.И.О. клиента: "{user_data.surname} {user_data.name} {user_data.father_name}"
+Ф.И.О. клиента: "{user_data.surname}  {user_data.name} {user_data.father_name}"
 Дата принятия в ремонт: {date_of_receipt}
 Дата выдачи после ремонта: {deadline}
 Статус: "{execution_of_works("Техника принята в ремонт")}"
@@ -43,9 +44,13 @@ class Phone(Technic):
     def enter_data(self):
         try:
             model = input("Модель - ")
+            if model.isnumeric():
+                raise ValueError
             operation_system = input("Оперционная система - ")
+            if operation_system.isnumeric():
+                raise ValueError
             type_of_breakdown = input("Тип поломки - ")
-            if model.isnumeric() or operation_system.isnumeric() or type_of_breakdown.isnumeric():
+            if type_of_breakdown.isnumeric():
                 raise ValueError
         except ValueError:
             print("Введена не корректная информация. Пожалуйста, исправьте.")
@@ -59,9 +64,11 @@ class TV(Technic):
         while True:
             try:
                 model = input("Модель - ")
+                if model.isnumeric():
+                    raise ValueError
                 diagonal = int(input("Диагональ экрана - "))
                 type_of_breakdown = input("Тип поломки - ")
-                if model.isnumeric() or type_of_breakdown.isnumeric():
+                if type_of_breakdown.isnumeric():
                     raise ValueError
             except ValueError:
                 print("Введена не корректная информация. Пожалуйста, исправьте.")
@@ -75,10 +82,14 @@ class Laptop(Technic):
         while True:
             try:
                 model = input("Модель - ")
+                if model.isnumeric():
+                    raise ValueError
                 operation_system = input("Операционная система - ")
+                if operation_system.isnumeric():
+                    raise ValueError
                 year_of_release = int(input("Год выпуска - "))
                 type_of_breakdown = input("Тип поломки - ")
-                if model.isnumeric() or operation_system.isnumeric() or type_of_breakdown.isnumeric():
+                if type_of_breakdown.isnumeric():
                     raise ValueError
             except ValueError:
                 print("Введена не корректная информация. Пожалуйста, исправьте.")
