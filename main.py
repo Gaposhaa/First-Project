@@ -59,7 +59,7 @@ class Laptop(Technic):
                 break
 
 
-def send_data(type_of_technic):
+def getting_technic_information(type_of_technic):
     if user_data.equipment == "Телефон":
         current_phone = Phone()
         current_phone.receiving_data()
@@ -77,7 +77,7 @@ def send_data(type_of_technic):
 2 - "Телевизор"
 3 - "Ноутбук" """)
         user_data.equipment = input("Тип техники(Телефон, Телевизор, Ноутбук) = ")
-        send_data(user_data.equipment)
+        getting_technic_information(user_data.equipment)
     return type_of_technic
 
 
@@ -98,4 +98,4 @@ if __name__ == "__main__":
     Дата выдачи после ремонта: {deadline}
     Статус: "{execution_of_works("Техника принята в ремонт")}"
     Техническая информация/информация о поломке:"""
-    send_data(user_data.equipment)
+    getting_technic_information(user_data.equipment)
