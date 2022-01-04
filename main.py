@@ -3,16 +3,32 @@ import datetime
 from abc import ABC, abstractmethod
 
 
-def execution_of_works(status):
-    return status
-
-
 class Receipt:
     def __init__(self, name, father_name, surname, equipment):
         self.name = name
         self.father_name = father_name
         self.surname = surname
         self.equipment = equipment
+
+    def getting_technic_information(self):
+        if self.equipment == "Телефон":
+            current_phone = Phone()
+            current_phone.receiving_data()
+        elif self.equipment == "Телевизор":
+            current_tv = TV()
+            current_tv.receiving_data()
+        elif self.equipment == "Ноутбук":
+            current_laptop = Laptop()
+            current_laptop.receiving_data()
+        else:
+            print(f"""К сожалению, {user_data.name} {user_data.father_name}, мы не обслуживаем данный вид техники,      
+            либо вы ввели не корректные данные.
+            Выберите из доступных видов:
+            1 - "Телефон"
+            2 - "Телевизор"
+            3 - "Ноутбук" """)
+            self.equipment = input("Тип техники(Телефон, Телевизор, Ноутбук) = ")
+            user_data.getting_technic_information()
 
 
 class Technic(ABC):
@@ -24,7 +40,7 @@ class Technic(ABC):
 class Phone(Technic):
     def receiving_data(self):
         model = input("Модель - ")
-        operation_system = input("Оперционная система - ")
+        operation_system = input("Операционная система - ")
         type_of_breakdown = input("Тип поломки - ")
         print(f"{full_description} {user_data.equipment} - {model=}, {operation_system=}, {type_of_breakdown=}")
 
@@ -59,28 +75,6 @@ class Laptop(Technic):
                 break
 
 
-def getting_technic_information(type_of_technic):
-    if user_data.equipment == "Телефон":
-        current_phone = Phone()
-        current_phone.receiving_data()
-    elif user_data.equipment == "Телевизор":
-        current_tv = TV()
-        current_tv.receiving_data()
-    elif user_data.equipment == "Ноутбук":
-        current_laptop = Laptop()
-        current_laptop.receiving_data()
-    else:
-        print(f"""К сожалению, {user_data.name} {user_data.father_name}, мы не обслуживаем данный вид техники,      
-либо вы ввели не корректные данные.
-Выберите из доступных видов:
-1 - "Телефон"
-2 - "Телевизор"
-3 - "Ноутбук" """)
-        user_data.equipment = input("Тип техники(Телефон, Телевизор, Ноутбук) = ")
-        getting_technic_information(user_data.equipment)
-    return type_of_technic
-
-
 if __name__ == "__main__":
     print("""Приветствуем Вас в нашем сервисе по ремонту техники!
     Пожалуйста, введите следующие данные:
@@ -96,6 +90,6 @@ if __name__ == "__main__":
     Ф.И.О. клиента: "{user_data.surname}  {user_data.name} {user_data.father_name}"
     Дата принятия в ремонт: {date_of_receipt}
     Дата выдачи после ремонта: {deadline}
-    Статус: "{execution_of_works("Техника принята в ремонт")}"
+    Статус: "Техника принята в ремонт"
     Техническая информация/информация о поломке:"""
-    getting_technic_information(user_data.equipment)
+    user_data.getting_technic_information()
