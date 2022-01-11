@@ -3,13 +3,11 @@ import receipts
 
 
 class Information:
-    print("""Уважаемый пользователь, выберите действие. "Сдаю в ремонт"(ввод данных о технике и описание поломки),
-"Информация"(Информация о обращениях в наш сервис) """)
 
     def __init__(self, user_choice):
         self.user_choice = user_choice
 
-    def getting_choice(self, current_choice):
+    def getting_choice(self):
         if self.user_choice == "Сдаю в ремонт":
             print("""Приветствуем Вас в нашем сервисе по ремонту техники!
 Пожалуйста, введите следующие данные:
@@ -18,29 +16,39 @@ class Information:
                             - "Фамилия"
                             - "Тип техники(Телефон, Телевизор, Ноутбук)""")
             user_choice = main.Receipt(input("Имя - "), input("Очество - "),
-                                       input("Фамилия - "), input("Тип - "), "Ремонт")
-            user_choice.getting_technic_information(user_choice)
+                                       input("Фамилия - "), input("Тип - "))
+            user_choice.filling_out_a_receipt()
         elif self.user_choice == "Информация":
-            print("""Если Вас интересует информация о конкретном обращении в наш сервис,
-введите "Да" в графе "Ваш выбор", далее введите номер квитанции.
-Если Вы хотите получить данные о всех обращениях в наш сервис, введите "Нет" в графе "Ваш выбор", 
-далее введите ФИО, вы получите данную информацию.""")
-
-            our_choice = input("Ваш выбор - ")
-            if our_choice == "Да":
-                current_number = input("Номер квитанции - ")
-                receipts.using_a_receipt(current_number)
-            elif our_choice == "Нет":
-                user_data = main.Receipt(input("Имя - "), input("Очество - "), input("Фамилия - "), "Техника", "Выдана")
-                receipts.using_all_receipts(user_data)
+            print("""Если Вас интересует информация о обращениях в наш сервис,
+введите: "ФИО" в графе "Данные", для получения полной информации по обращениям, либо номер квитанции, для получения 
+информации о конкретном обращении.""")
+            current_data = input("Данные - ")
+            if current_data == receipts.petrov_data:
+                print(receipts.petrov_receipts_information)
+            elif current_data == receipts.ivanov_data:
+                print(receipts.ivanov_data_information)
+            elif current_data == receipts.sergeev_data:
+                print(receipts.sergeev_equipment_data_information)
+            elif current_data == receipts.equipment_data_petrov.number_of_receipt:
+                print(receipts.petrov_equipment_data_information)
+            elif current_data == receipts.second_equipment_data_petrov.number_of_receipt:
+                print(receipts.second_petrov_equipment_data_information)
+            elif current_data == receipts.equipment_data_ivanov.number_of_receipt:
+                print(receipts.ivanov_equipment_data_information)
+            elif current_data == receipts.second_equipment_data_ivanov.number_of_receipt:
+                print(receipts.second_ivanov_equipment_data_information)
+            elif current_data == receipts.equipment_data_sergeev.number_of_receipt:
+                print(receipts.sergeev_equipment_data_information)
             else:
-                print("""Введена не корректная информация в графе "Ваш выбор" """)
-                current_choice.getting_choice(current_choice)
+                print("Данный пользователь не обращался в наш сервис. Либо введены не корректные данные")
         else:
-            print("""Введены не корректные данные в графе "Вводные данные(Сдаю в ремонт/Информация)" """)
-            self.user_choice = input()
-            current_choice.getting_choice(current_choice)
+            print("Введены не корректные данные")
+            self.user_choice = input("Вводные данные(Сдаю в ремонт/Информация) - ")
+            current_choice.getting_choice()
 
 
-current_choice = Information(input("Вводные данные(Сдаю в ремонт/Информация) - "))
-current_choice.getting_choice(current_choice)
+if __name__ == "__main__":
+    print("""Уважаемый пользователь, выберите действие. "Сдаю в ремонт"(ввод данных о технике и описание поломки),
+    "Информация"(Информация о обращениях в наш сервис) """)
+    current_choice = Information(input("Вводные данные(Сдаю в ремонт/Информация) - "))
+    current_choice.getting_choice()
