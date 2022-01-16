@@ -3,7 +3,7 @@ class Technic:
         self.model = model
         self.type_of_breakdown = type_of_breakdown
 
-    def fill_in_receipt(self):
+    def __str__(self):
         return f"""Модель: {self.model}
 Информация о неисправности: {self.type_of_breakdown}"""
 
@@ -14,7 +14,9 @@ class Phone(Technic):
         self.operation_system = operation_system
 
     def __str__(self):
-        return f"""Техническая информация: Операционная система - {self.operation_system}"""
+        return f"""Телефон
+{super().__str__()}
+Техническая информация: Операционная система - {self.operation_system}"""
 
 
 class TV(Technic):
@@ -23,7 +25,9 @@ class TV(Technic):
         self.diagonal = diagonal
 
     def __str__(self):
-        return f"""Техническая информация: Диагональ - {self.diagonal} """
+        return f"""Телевизор
+{super().__str__()}
+Техническая информация: Диагональ - {self.diagonal}"""
 
 
 class Laptop(Technic):
@@ -33,5 +37,6 @@ class Laptop(Technic):
         self.year_of_release = year_of_release
 
     def __str__(self):
-        return f"""Техническая информация: Операционная система - {self.operation_system},
-                                          Год выпуска - {self.year_of_release} """
+        return f"""Ноутбук
+{super().__str__()}
+Техническая информация: Операционная система - {self.operation_system}; Год выпуска - {self.year_of_release} """
