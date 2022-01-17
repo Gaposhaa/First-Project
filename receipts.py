@@ -1,28 +1,28 @@
-import main
-import moduls
+import user_information
+import models
 
 
-user_data_petrov = main.Receipt("Петр", "Петрович", "Петров ", "Ноутбук", "110", "2020-09-09", "2020-09-12",
-                                "Техника выдана пользователю после ремонта")
-user_data_petrov.equipment = moduls.Laptop("Asus", "Windows", "2019", "не включается")
+user_data_petrov = user_information.Receipt("Петр", "Петрович", "Петров ", "Ноутбук", "110", "2020-09-09", "2020-09-12",
+                                            "Техника выдана пользователю после ремонта")
+user_data_petrov.equipment = models.Laptop("Asus", "Windows", "2019", "не включается")
 first_receipt_petrov = f"""{user_data_petrov}"""  # Квитанция
 user_data_petrov.number_of_receipt = "225"
 user_data_petrov.date_of_receipt = "2021-08-09"
 user_data_petrov.deadline = "2021-08-12"
-user_data_petrov.equipment = moduls.Phone("Samsung", "Android", "не включается")
+user_data_petrov.equipment = models.Phone("Samsung", "Android", "не включается")
 second_receipt_petrov = f"""{user_data_petrov}"""  # Квитанция
-user_data_ivanov = main.Receipt("Иван", "Иванович", "Иванов ", "Телевизор", "315", "2019-09-12", "2019-09-15",
-                                "Техника выдана пользователю после ремонта")
-user_data_ivanov.equipment = moduls.TV("Samsung", "42", "нет изображения")
+user_data_ivanov = user_information.Receipt("Иван", "Иванович", "Иванов ", "Телевизор", "315", "2019-09-12",
+                                            "2019-09-15", "Техника выдана пользователю после ремонта")
+user_data_ivanov.equipment = models.TV("Samsung", "42", "нет изображения")
 first_receipt_ivanov = f"""{user_data_ivanov}"""  # Квитанция
 user_data_ivanov.number_of_receipt = "554"
 user_data_ivanov.date_of_receipt = "2020-08-12"
 user_data_ivanov.deadline = "2020-08-15"
-user_data_ivanov.equipment = moduls.TV("Samsung", "42", "не включается")
+user_data_ivanov.equipment = models.TV("Samsung", "42", "не включается")
 second_receipt_ivanov = f"""{user_data_ivanov}"""  # Квитанция
-user_data_sergeev = main.Receipt("Сергей", "Сергеевич", "Сергеев ", "Телефон", "349", "2021-12-12", "2021-12-15",
-                                 "Техника выдана пользователю после ремонта")
-user_data_sergeev.equipment = moduls.Phone("Samsung", "Android", "не включается")
+user_data_sergeev = user_information.Receipt("Сергей", "Сергеевич", "Сергеев ", "Телефон", "349", "2021-12-12",
+                                             "2021-12-15", "Техника выдана пользователю после ремонта")
+user_data_sergeev.equipment = models.Phone("Samsung", "Android", "не включается")
 first_receipt_sergeev = f"""{user_data_sergeev}"""  # Квитанция
 
 petrov_data = f"{user_data_petrov.surname}{user_data_petrov.name} {user_data_petrov.father_name}"
