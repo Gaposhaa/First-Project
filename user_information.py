@@ -1,8 +1,8 @@
 class Receipt:
-    def __init__(self, name, father_name, surname, equipment, number_of_receipt, date_of_receipt, deadline, status):
+    def __init__(self, surname, name, father_name, equipment, number_of_receipt, date_of_receipt, deadline, status):
+        self.surname = surname
         self.name = name
         self.father_name = father_name
-        self.surname = surname
         self.equipment = equipment
         self.number_of_receipt = number_of_receipt
         self.date_of_receipt = date_of_receipt
