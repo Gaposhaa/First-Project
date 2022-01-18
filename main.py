@@ -1,95 +1,90 @@
-import random
+import user_information
+import models
 import datetime
-from abc import ABC, abstractmethod
+import random
+import receipts
 
 
-class Receipt:
-    def __init__(self, name, father_name, surname, equipment):
-        self.name = name
-        self.father_name = father_name
-        self.surname = surname
-        self.equipment = equipment
-
-    def getting_technic_information(self):
-        if self.equipment == "Телефон":
-            current_phone = Phone()
-            current_phone.receiving_data()
-        elif self.equipment == "Телевизор":
-            current_tv = TV()
-            current_tv.receiving_data()
-        elif self.equipment == "Ноутбук":
-            current_laptop = Laptop()
-            current_laptop.receiving_data()
+def fill_out_a_receipt(type_of_technic):
+    while True:
+        if type_of_technic == "Телефон":
+            equipment = models.Phone(input("Модель телефона - "), input("Операционная система - "),
+                                     input("Информация о поломке  - "))
+            break
+        elif type_of_technic == "Ноутбук":
+            try:
+                equipment = models.Laptop(input("Модель ноутбука - "), input("Операционная система - "),
+                                          int(input("Год выпуска - ")), input("Информация о поломке - "))
+            except ValueError:
+                print("""Введены не корректные данные в графе "Год выпуска"! """)
+            else:
+                break
+        elif type_of_technic == "Телевизор":
+            try:
+                equipment = models.TV(input("Модель телевизора - "), int(input("Диагональ - ")),
+                                      input("Информация о поломке  - "))
+            except ValueError:
+                print("""Введены не корректные данные в графе "Диагональ"! """)
+            else:
+                break
         else:
-            print(f"""К сожалению, {user_data.name} {user_data.father_name}, мы не обслуживаем данный вид техники,      
-            либо вы ввели не корректные данные.
-            Выберите из доступных видов:
-            1 - "Телефон"
-            2 - "Телевизор"
-            3 - "Ноутбук" """)
-            self.equipment = input("Тип техники(Телефон, Телевизор, Ноутбук) = ")
-            user_data.getting_technic_information()
+            print("К сожалению мы не обслуживаем данный вид техники, либо вы ввели не корректные данные.")
+            type_of_technic = input("Тип техники - ")
+    print("\nВведите персональные данные")
+    user_data = user_information.Receipt(input("Имя - "), input("Очество - "),
+                                         input("Фамилия - "), equipment, random.randint(1, 1000),
+                                         datetime.date.today(),
+                                         datetime.date.today() + datetime.timedelta(random.choice(range(1, 5))),
+                                         "Техника сдана в ремонт")
+    personal_data = f"{user_data.surname}{user_data.name} {user_data.father_name}"
+    new_values_for_dict = {user_data.number_of_receipt: user_data, personal_data: user_data}
+    for k in receipts.dict_with_receipts:
+        if k == new_values_for_dict[personal_data]:
+            receipts.dict_with_receipts[k].append(user_data)
+        else:
+            receipts.dict_with_receipts.update(new_values_for_dict)
+    return user_data
 
 
-class Technic(ABC):
-    @abstractmethod
-    def receiving_data(self):
-        pass
+def search_receipt(user_choice):
+    while True:
+        if user_choice == "0":
+            break
+        else:
+            receipts.give_out_information(user_choice)
+            break
+    main()
 
 
-class Phone(Technic):
-    def receiving_data(self):
-        model = input("Модель - ")
-        operation_system = input("Операционная система - ")
-        type_of_breakdown = input("Тип поломки - ")
-        print(f"{full_description} {user_data.equipment} - {model=}, {operation_system=}, {type_of_breakdown=}")
+def accept_a_choice(user_choice):
+    if user_choice == "Сдаю в ремонт":
+        print("Пожалуйста, введите тип техники, сдаваемой в ремонт: ")
+        current_technic = input("Тип техники - ")
+        print(fill_out_a_receipt(current_technic))
+        main()
+    elif user_choice == "Информация":
+        print("\nВведите Ф.И.О, если хотите получить информацию о всех обращения в наш сервис, "
+              "либо номер квитанции,""если хотите получить информацию о конкретном обращении.\n"
+              "Если хотите вернуться в меню ввода данных, введите 0")
+        current_user_choice = input("Ф.И.О/Номер квитанции - ")
+        search_receipt(current_user_choice)
+    elif user_choice == "0":
+        print("Мы будем рады видеть Вас в нашем сервисе!")
+        exit()
+    else:
+        print("Введены не корректные данные в графе Ваш выбор!")
+        user_choice = input("Ввод данных(Сдаю в ремонт/Информация) - ")
+        accept_a_choice(user_choice)
 
 
-class TV(Technic):
-    def receiving_data(self):
-        while True:
-            model = input("Модель - ")
-            try:
-                diagonal = int(input("Диагональ экрана - "))
-            except ValueError:
-                print("Введена не корректная информация. Пожалуйста, исправьте.")
-            else:
-                type_of_breakdown = input("Тип поломки - ")
-                print(f"{full_description} {user_data.equipment} - {model=}, {diagonal=}, {type_of_breakdown=}")
-                break
-
-
-class Laptop(Technic):
-    def receiving_data(self):
-        while True:
-            model = input("Модель - ")
-            operation_system = input("Операционная система - ")
-            try:
-                year_of_release = int(input("Год выпуска - "))
-            except ValueError:
-                print("Введена не корректная информация. Пожалуйста, исправьте.")
-            else:
-                type_of_breakdown = input("Тип поломки - ")
-                print(f"""{full_description} {user_data.equipment} - {model=}, {year_of_release=}, {operation_system=}
-{type_of_breakdown=}""")
-                break
+def main():
+    print("\nРады приветствовать Вас в нашем сервисе по ремонту техники!\nУважаемый пользователь, выберите действие:\n"
+          "\nСдаю в ремонт(ввод данных о технике и описание поломки)\n"
+          "Информация(Информация о обращениях в наш сервис)\n"
+          "Если хотите выйти из приложения, введите 0")
+    current_choice = input("\nВвод данных(Сдаю в ремонт/Информация/0) - ")
+    accept_a_choice(current_choice)
 
 
 if __name__ == "__main__":
-    print("""Приветствуем Вас в нашем сервисе по ремонту техники!
-    Пожалуйста, введите следующие данные:
-                - "Имя"
-                - "Очество"
-                - "Фамилия"
-                - "Тип техники(Телефон, Телевизор, Ноутбук)""")
-
-    user_data = Receipt(input("Имя - "), input("Очество - "), input("Фамилия - "), input("Тип техники - "))
-    date_of_receipt = datetime.date.today()
-    deadline = date_of_receipt + datetime.timedelta(random.choice(range(1, 5)))
-    full_description = f"""№ квитанции: "{random.randint(1, 1000)}"
-    Ф.И.О. клиента: "{user_data.surname}  {user_data.name} {user_data.father_name}"
-    Дата принятия в ремонт: {date_of_receipt}
-    Дата выдачи после ремонта: {deadline}
-    Статус: "Техника принята в ремонт"
-    Техническая информация/информация о поломке:"""
-    user_data.getting_technic_information()
+    main()
