@@ -3,6 +3,7 @@ import datetime
 import random
 import receipts
 import Admins_data
+import text_information_variables
 
 
 def fill_out_a_receipt(type_of_technic):
@@ -16,7 +17,7 @@ def fill_out_a_receipt(type_of_technic):
                 equipment = models.Laptop(input("Модель ноутбука - "), input("Операционная система - "),
                                           int(input("Год выпуска - ")), input("Информация о поломке - "))
             except ValueError:
-                print("""Введены не корректные данные в графе "Год выпуска"! """)
+                print(text_information_variables.error_text)
             else:
                 break
         elif type_of_technic == "Телевизор":
@@ -24,11 +25,11 @@ def fill_out_a_receipt(type_of_technic):
                 equipment = models.TV(input("Модель телевизора - "), int(input("Диагональ - ")),
                                       input("Информация о поломке  - "))
             except ValueError:
-                print("""Введены не корректные данные в графе "Диагональ"! """)
+                print(text_information_variables.error_text)
             else:
                 break
         else:
-            print("К сожалению мы не обслуживаем данный вид техники, либо вы ввели не корректные данные.")
+            print(text_information_variables.error_text)
             type_of_technic = input("Тип техники - ")
     print("\nВведите персональные данные")
     user_data = models.Receipt(input("Имя - "), input("Очество - "),
@@ -60,9 +61,7 @@ def accept_a_choice(user_choice):
         current_technic = input("Тип техники - ")
         print(fill_out_a_receipt(current_technic))
     elif user_choice == "Информация":
-        print("\nВведите Ф.И.О, если хотите получить информацию о всех обращения в наш сервис, "
-              "либо номер квитанции,""если хотите получить информацию о конкретном обращении.\n"
-              "Если хотите вернуться в меню ввода данных, введите 0")
+        print(text_information_variables.welcome_information_console_text)
         current_user_choice = input("Ф.И.О/Номер квитанции - ")
         search_receipt(current_user_choice)
     elif user_choice == "0":
@@ -73,18 +72,14 @@ def accept_a_choice(user_choice):
         current_password = input("Пароль - ")
         Admins_data.log_in_admin(current_login, current_password)
     else:
-        print("Введены не корректные данные в графе Ваш выбор!")
-        user_choice = input("Ввод данных(Сдаю в ремонт/Информация) - ")
+        print(text_information_variables.error_text)
+        user_choice = input("Ввод данных(Сдаю в ремонт/Информация/Админ/0) - ")
         accept_a_choice(user_choice)
 
 
 def main():
-    print("\nРады приветствовать Вас в нашем сервисе по ремонту техники!\nУважаемый пользователь, выберите действие:\n"
-          "\nСдаю в ремонт(ввод данных о технике и описание поломки)\n"
-          "Информация(Информация о обращениях в наш сервис)\n"
-          "Зайти как админ, введите Админ\n"
-          "Выйти из приложения, введите 0")
-    current_choice = input("\nВвод данных(Сдаю в ремонт/Информация/0) - ")
+    print(text_information_variables.welcome_text)
+    current_choice = input("Ввод данных(Сдаю в ремонт/Информация/Админ/0) - ")
     accept_a_choice(current_choice)
 
 

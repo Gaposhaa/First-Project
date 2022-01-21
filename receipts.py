@@ -1,5 +1,5 @@
 import models
-
+import text_information_variables
 
 user_data_petrov = models.Receipt("Петров", "Петр", "Петрович ", "Ноутбук", "110", "2020-09-09", "2020-09-12",
                                   "Техника выдана пользователю после ремонта")
@@ -29,11 +29,15 @@ user_data_sergeev = models.Receipt("Сергеев", "Сергей", "Серге
                                    "2021-12-15", "Техника выдана пользователю после ремонта")
 user_data_sergeev.equipment = models.Phone("Samsung", "Android", "не включается")
 
-first_receipt_sergeev = user_data_sergeev  # Квитанция
+first_receipt_sergeev = user_data_sergeev # Квитанция
 
 petrov_data = f"{user_data_petrov.surname} {user_data_petrov.name} {user_data_petrov.father_name}"
+petrov_data = petrov_data.strip()
 ivanov_data = f"{user_data_ivanov.surname} {user_data_ivanov.name} {user_data_ivanov.father_name}"
+ivanov_data = ivanov_data.strip()
 sergeev_data = f"{user_data_sergeev.surname} {user_data_sergeev.name} {user_data_sergeev.father_name}"
+sergeev_data = sergeev_data.strip()
+
 dict_with_receipts = {petrov_data: [first_receipt_petrov, second_receipt_petrov], ivanov_data: [first_receipt_ivanov,
                       second_receipt_ivanov], sergeev_data: first_receipt_sergeev, "110": first_receipt_petrov,
                       "225": second_receipt_petrov, "315": first_receipt_ivanov, "554": second_receipt_ivanov, "349":
@@ -41,13 +45,13 @@ dict_with_receipts = {petrov_data: [first_receipt_petrov, second_receipt_petrov]
 
 
 def give_out_information(choice):
-    for k, v in dict_with_receipts.items():
-        if k == choice:
-            if isinstance(v, list):
-                for i in v:
+    for key, value in dict_with_receipts.items():
+        if key == choice:
+            if isinstance(value, list):
+                for i in value:
                     print(i)
             else:
-                print(v)
+                print(value)
             break
     else:
-        print("Информация отсутствует, либо Вы ввели не корректные данные!")
+        print(text_information_variables.error_text)
