@@ -18,39 +18,33 @@ class Admins:
 admin_haponenka = Admins("Гапоненко", "Артем", "Сергеевич", "Artem", "MilMir21")
 admin_ivanov = Admins("Иванов", "Иван", "Иванович", "Ivan", "Iv2000")
 admin_petrov = Admins("Петров", "Петр", "Петрович", "Petr", "pet2001")
-admins_list_data = [str(admin_haponenka), str(admin_ivanov), str(admin_petrov)]
+admins_list_data = [admin_haponenka, admin_ivanov, admin_petrov]
 admins_logins_passwords_dict = {admin_haponenka.login: admin_haponenka.password,
                                 admin_ivanov.login: admin_ivanov.password, admin_petrov.login: admin_petrov.password}
 
 
 def act_as_an_admin(user_choice):
     if user_choice == "1":
-        print(admins_list_data)
+        for i in admins_list_data:
+            print(i)
     elif user_choice == "2":
         print("Выберите админа, которого хотите удалить")
-        admin_choice = input("Введите Ф.И.О. админа - ")
+        admin_choice = input("Введите логин админа - ")
         for i in admins_list_data:
-            if i == admin_choice:
+            if i.login == admin_choice:
                 admins_list_data.remove(i)
-                if i == str(admin_haponenka):
-                    admins_logins_passwords_dict.pop(admin_haponenka.login)
-                    print("Админ удален")
+                print("Админ удален")
+                for k in admins_logins_passwords_dict.keys():
+                    if k == i.login:
+                        admins_logins_passwords_dict.pop(k)
                     break
-                elif i == str(admin_ivanov):
-                    admins_logins_passwords_dict.pop(admin_ivanov.login)
-                    print("Админ удален")
-                    break
-                elif i == str(admin_petrov):
-                    admins_logins_passwords_dict.pop(admin_petrov.login)
-                    print("Админ удален")
-                    break
-        else:
-            print(text_information_variables.error_text)
+                else:
+                    print(text_information_variables.error_text)
     elif user_choice == "3":
         print("Введите данные админа, которого хотите добавить")
         new_admin = Admins(input("Фамилия - "), input("Имя - "), input("Очество - "), input("Логин - "),
                            input("Пароль - "))
-        admins_list_data.append(str(new_admin))
+        admins_list_data.append(new_admin)
         admins_logins_passwords_dict[new_admin.login] = new_admin.password
         print("Админ добавлен")
     elif user_choice == "4":
